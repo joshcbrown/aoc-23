@@ -33,7 +33,7 @@ cli =
             partReader
             ( long "part"
                 <> short 'p'
-                <> metavar "[1|2|both]"
+                <> metavar "1|2|both"
                 <> value Both
                 <> help "part of day to run."
             )
