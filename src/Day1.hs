@@ -15,8 +15,8 @@ letters = void $ takeWhile isAlpha
 singleDigit :: Parser Int
 singleDigit = read . (: []) <$> digit
 
-toInt :: [Int] -> Int
-toInt = sum . zipWith (\i x -> (10 ^ i) * x) [0 ..] . reverse
+-- toInt :: [Int] -> Int
+-- toInt = sum . zipWith (\i x -> (10 ^ i) * x) [0 ..] . reverse
 
 foo :: [Int] -> Int
 foo xs = (head xs * 10) + last xs
@@ -26,21 +26,29 @@ pLetters p = p <|> (letter *> pLetters p)
 
 pNumbers :: Parser Int -> Parser [Int]
 pNumbers pDigit = many $ do
-    i <- many $ pLetters pDigit
+    digits <- many $ pLetters pDigit
     letters *> endOfLine
-    pure $ foo i
+    pure $ foo digits
 
-common :: Parser Int -> FilePath -> IO ()
-common pDigit f = (putStrLn . either id (show . sum) . parseOnly (pNumbers pDigit) . T.pack) =<< readFile f
+runPartWith :: Parser Int -> FilePath -> IO ()
+runPartWith pDigit f =
+    readFile f
+        >>= ( putStrLn
+                . either id (show . sum)
+                . parseOnly (pNumbers pDigit)
+                . T.pack
+            )
 
 part1 :: FilePath -> IO ()
-part1 = common singleDigit
+part1 = runPartWith singleDigit
 
 singleDigitSpelled :: Parser Int
-singleDigitSpelled = singleDigit <|> spelled
+singleDigitSpelled = singleDigit <|> spelledDigit
   where
     digitStrings = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-    spelled = choice (zipWith (\n s -> lookAhead (string s) *> take (T.length s - 1) $> n) [1 ..] digitStrings)
+    -- spelled digits can overlap by 1 letter so we can't consume all the input
+    spelledDigitN n spelled = (lookAhead (string spelled) *> take (T.length spelled - 1)) $> n
+    spelledDigit = choice $ zipWith spelledDigitN [1 ..] digitStrings
 
 part2 :: FilePath -> IO ()
-part2 = common singleDigitSpelled
+part2 = runPartWith singleDigitSpelled
