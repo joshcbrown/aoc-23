@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Cli (Part (..), Cli (..), parseCli) where
 
 import qualified Data.Attoparsec.Text as A

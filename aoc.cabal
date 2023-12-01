@@ -27,8 +27,8 @@ library
     -- Modules included in this library but not exported.
     -- other-modules:
 
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
+    default-extensions: OverloadedStrings
+    ghc-options: -Wall
     build-depends:    base ^>=4.17.2.0,
                       optparse-applicative ^>=0.18.1.0,
                       attoparsec,
