@@ -7,7 +7,7 @@ import Data.Attoparsec.Text
 import Data.Char (isAlpha)
 import Data.Functor (($>))
 import qualified Data.Text as T
-import Prelude hiding (takeWhile)
+import Prelude hiding (take, takeWhile)
 
 letters :: Parser ()
 letters = void $ takeWhile isAlpha
@@ -37,10 +37,10 @@ part1 :: FilePath -> IO ()
 part1 = common singleDigit
 
 singleDigitSpelled :: Parser Int
-singleDigitSpelled = singleDigit <|> (lookAhead spelled <* (letter <|> digit))
+singleDigitSpelled = singleDigit <|> spelled
   where
     digitStrings = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-    spelled = choice (zipWith (\n s -> string s $> n) [1 ..] digitStrings)
+    spelled = choice (zipWith (\n s -> lookAhead (string s) *> take (T.length s - 1) $> n) [1 ..] digitStrings)
 
 part2 :: FilePath -> IO ()
 part2 = common singleDigitSpelled
