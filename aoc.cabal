@@ -22,7 +22,9 @@ maintainer:         80245312+joshcbrown@users.noreply.github.com
 extra-source-files: CHANGELOG.md
 
 library
-    exposed-modules:  Cli, Day1
+    exposed-modules:  Cli,
+                      Day1,
+                      Day2
 
     -- Modules included in this library but not exported.
     -- other-modules:
