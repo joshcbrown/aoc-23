@@ -1,5 +1,6 @@
 module Day1 (part1, part2) where
 
+import Common
 import Control.Applicative (many, (<|>))
 import Control.Monad (void)
 import Data.Attoparsec.Combinator (lookAhead)
@@ -24,15 +25,8 @@ pNumbers pDigit = (fmap sum . many) $ do
     letters *> endOfLine
     pure $ head digits * 10 + last digits
 
-runPartWith :: Parser Int -> String -> IO ()
-runPartWith pDigit =
-    putStrLn
-        . either id show
-        . parseOnly (pNumbers pDigit)
-        . T.pack
-
 part1 :: String -> IO ()
-part1 = runPartWith singleDigit
+part1 = runPartWith (pNumbers singleDigit) id
 
 singleDigitSpelled :: Parser Int
 singleDigitSpelled = singleDigit <|> spelledDigit
@@ -43,4 +37,4 @@ singleDigitSpelled = singleDigit <|> spelledDigit
     spelledDigit = choice $ zipWith spelledDigitN [1 ..] digitStrings
 
 part2 :: String -> IO ()
-part2 = runPartWith singleDigitSpelled
+part2 = runPartWith (pNumbers singleDigitSpelled) id

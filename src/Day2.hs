@@ -5,6 +5,7 @@ module Day2 (
     part2,
 ) where
 
+import Common
 import Control.Applicative
 import Control.Monad (void)
 import Data.Attoparsec.Text
@@ -40,12 +41,8 @@ game = Game <$> gid <*> game_rounds
     gid = string "Game " *> decimal <* string ": "
     game_rounds = many $ pRound <* (void (string "; ") <|> endOfLine)
 
-runPartWith :: ([Game] -> String) -> String -> IO ()
-runPartWith f =
-    putStrLn
-        . either id f
-        . parseOnly (many game <* endOfInput)
-        . T.pack
+file :: Parser [Game]
+file = many game <* endOfInput
 
 validate :: Game -> Bool
 validate = all (all ok) . rounds
@@ -55,7 +52,7 @@ validate = all (all ok) . rounds
     ok (Blue n) = n <= 14
 
 part1 :: String -> IO ()
-part1 = runPartWith (show . sum . map game_id . filter validate)
+part1 = runPartWith file (show . sum . map game_id . filter validate)
 
 power :: Bag -> Int
 power b = red b * blue b * green b
@@ -63,6 +60,7 @@ power b = red b * blue b * green b
 part2 :: String -> IO ()
 part2 =
     runPartWith
+        file
         ( show
             . sum
             . map (power . minBag . concat . rounds)
