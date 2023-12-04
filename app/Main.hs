@@ -4,6 +4,7 @@ import Cli
 import Data.Maybe (fromMaybe)
 import qualified Day1
 import qualified Day2
+import qualified Day4
 
 main :: IO ()
 main = do
@@ -11,6 +12,7 @@ main = do
     let (part1, part2) = case day cli of
             1 -> (Day1.part1, Day1.part2)
             2 -> (Day2.part1, Day2.part2)
+            4 -> (Day4.part1, Day4.part2)
             n -> error $ "unsupported day: " ++ show n
         defaultInput = "data/day" ++ show (day cli) ++ ".txt"
     contents <- readFile $ fromMaybe defaultInput (file cli)
