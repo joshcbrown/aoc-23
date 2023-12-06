@@ -42,11 +42,10 @@ part1 = runPartWith file totalScore
 win :: V.Vector Int -> (Int, Int) -> V.Vector Int
 win v (idx, n) =
     let slice = V.slice (idx + 1) n v
-        curVal = v ! idx
-        newVals = V.map (+ curVal) slice
+        newVals = V.map (+ (v ! idx)) slice
         range = V.fromListN n [idx + 1 .. idx + n]
-        indices = V.zip range newVals
-     in V.update v indices
+        changes = V.zip range newVals
+     in V.update v changes
 
 totalScratchCards :: [Card] -> V.Vector Int
 totalScratchCards cs =

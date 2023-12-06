@@ -27,6 +27,7 @@ library
                       Day2,
                       Day3,
                       Day4,
+                      Day5,
                       Common
 
     -- Modules included in this library but not exported.
@@ -36,6 +37,7 @@ library
     ghc-options: -Wall
     build-depends:    base ^>=4.17.2.0,
                       optparse-applicative ^>=0.18.1.0,
+                      split ^>=0.2.4,
                       attoparsec,
                       containers,
                       vector,
