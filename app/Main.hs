@@ -6,6 +6,7 @@ import qualified Day1
 import qualified Day2
 import qualified Day4
 import qualified Day5
+import qualified Day6
 
 main :: IO ()
 main = do
@@ -15,6 +16,7 @@ main = do
             2 -> (Day2.part1, Day2.part2)
             4 -> (Day4.part1, Day4.part2)
             5 -> (Day5.part1, Day5.part2)
+            6 -> (Day6.part1, Day6.part2)
             n -> error $ "unsupported day: " ++ show n
         defaultInput = "data/day" ++ show (day cli) ++ ".txt"
     contents <- readFile $ fromMaybe defaultInput (file cli)

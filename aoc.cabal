@@ -28,6 +28,7 @@ library
                       Day3,
                       Day4,
                       Day5,
+                      Day6,
                       Common
 
     -- Modules included in this library but not exported.
